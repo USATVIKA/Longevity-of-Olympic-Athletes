@@ -1,0 +1,21 @@
+project:
+  type: website
+
+website:
+  title: "."
+  navbar:
+    left:
+      - href: analysis.qmd
+        text: Home
+      - about.qmd
+      - sources.qmd
+      - model.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+
+

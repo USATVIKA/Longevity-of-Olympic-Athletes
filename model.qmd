@@ -1,0 +1,41 @@
+---
+title: "Models"
+---
+
+## Model Details
+
+### Data Generating Mechanism
+
+In this analysis, we employ a Bayesian generalized linear model to explore the relationship between the number of Olympics attended by athletes and the total number of medals they have won. The model is specified as follows: $$
+\text{Olympics\_Attended} \sim \text{Poisson}(\lambda)
+$$
+
+Where the log of the expected value of the Poisson distribution is modeled as:
+
+\$\$ \\log(\\lambda) = \\beta_0 + \\beta_1 \\times \\text{Total\\\_Medals} + \\text{Sport}\_{i} + \\text{Team}\_{j} \$\$
+
+In the formula:
+
+-   Olympis_Attended is the dependent variable (the number of Olympics attended).
+
+-   Total_Medals is the predictor variable (the total number of medals won).
+
+-   Sport and Team are random effects for the sport and team, respectively.
+
+### Parameter Estimates
+
+The model was fit using the `brms` package, and the following summarizes the key findings from the analysis:
+
+-   **Intercept (**β0\beta\_0β0​): Represents the baseline log-rate of the number of Olympics attended when the total number of medals is zero.
+
+-   **Total Medals (**β1\beta\_1β1​): Indicates how the log-rate of the number of Olympics attended changes with each additional medal won.
+
+-   **Random Effects**: Include variations attributed to different sports and teams.​​
+
+    ```{r}
+    message: FALSE
+    echo: FALSE
+    # In second .qmd file
+    fit <- readRDS("fit_model.rds")
+    summary(fit)
+    ```

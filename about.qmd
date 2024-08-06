@@ -1,0 +1,5 @@
+---
+title: "About"
+---
+
+My name is Satvika Upperla, and I am a student at Allen High School, check out my Github account [here](https://github.com/USATVIKA?tab=repositories), and contact me at upperlasatvika@gmail.com if you have any questions. My project explores the relationship between an athletes longevity in the Olympics and the amount of medals they win, find out more info about it [here](https://github.com/USATVIKA/Longevity-of-Olympic-Athletes). This project was created as a part of [Kane’s Data Science Bootcamp](https://bootcamp.davidkane.info/).

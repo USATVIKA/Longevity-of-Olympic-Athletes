@@ -1,0 +1,7 @@
+---
+title: "Sources"
+---
+
+The data utilized in this analysis was originally sourced from Kaggle, which provided a comprehensive dataset detailing various aspects of Olympic athletes for the past 120 years.. To make the data more relevant and insightful, it underwent a thorough cleaning process. This involved refining the dataset to focus specifically on key attributes: ID, Sport, and Team. Additionally, the dataset was modified to include aggregated statistics such as Total Medals won by each athlete and the number of Olympics they attended.
+
+The cleaning and modification steps aimed to enhance the clarity and usability of the data for further analysis. By emphasizing these specific attributes, the dataset now offers a clearer perspective on the athletes' achievements and their Olympic careers. This approach not only streamlines the information but also provides a more focused view of the athletes' performance across multiple Olympic Games
