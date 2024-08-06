@@ -1,0 +1,109 @@
+---
+title: "Longevity of Olympic Athletes"
+format: html
+editor: visual
+execute:
+  echo: false
+---
+
+```{r}
+#| message: FALSE
+#| label: setup
+library(tidyverse)
+library(bayesplot)
+library(tidybayes)
+library(brms)
+```
+
+```{r}
+#|message: FALSE
+#|label: dataset
+ds <- read_csv("athlete_events.csv", show_col_types = FALSE)
+
+```
+
+```{r}
+#|label: athlete data
+
+athlete_data <- ds |>
+  mutate(medal = if_else(is.na(Medal), 0, 1)) |>
+  group_by(ID, Sport, Team) |>
+  summarise(
+    Total_Medals = sum(medal, na.rm = TRUE),
+    Olympics_Attended = n_distinct(Games),
+    .groups = "drop"
+  )
+
+
+```
+
+```{r}
+#| cache: true
+# Define the model formula
+formula <- bf(Olympics_Attended ~ Total_Medals + (1|Sport) + (1|Team))
+
+smaller_athlete_data <- slice_sample(athlete_data, prop = 0.01)
+# Fit the model
+```
+
+```{r}
+#|cache: TRUE
+#|message: FALSE
+#| warning: FALSE
+#| results: 'hide'
+ fit <-  brm(
+  formula = formula,
+  data = smaller_athlete_data,
+  family = poisson(), 
+  seed = 9, 
+  refresh = 0, 
+  silent = 2)
+```
+
+```{r}
+#| cache: TRUE
+# Check model fit and convergence
+summary(fit)
+plot(fit)
+posterior_predict(fit)
+fixef(fit)
+
+teams <- unique(smaller_athlete_data$Team)
+sports <- unique(smaller_athlete_data$Sport)
+total_medals <- seq(0, max(smaller_athlete_data$Total_Medals)) # Adjust the range as needed
+
+# Create a tibble with all combinations
+all_combinations <- expand_grid(
+  Team = teams,
+  Sport = sports,
+  Total_Medals = total_medals,
+  Olympics_Attended = 1:10
+)
+# Sample a subset of the combinations
+sampled_combinations <- all_combinations |> sample_n(1000) # Adjust the number as needed
+
+# Generate predictions using the comprehensive tibble
+predictions <- fit |> add_epred_draws(newdata = sampled_combinations, seed = 9)
+
+```
+
+```{r}
+predictions |> ggplot(aes(x = Total_Medals, y = .epred, color = Team)) +
+  geom_line() +
+  facet_wrap(~ Sport, scales = "free") +
+  scale_color_viridis_d() +
+  labs(
+    title = "Predicted Number of Olympics Attended by Total Medals",
+    x = "Total Medals",
+    y = "Predicted Number of Olympics Attended",
+    color = "Team"
+  ) +
+  theme_minimal() 
+```
+
+```{r}
+# In first .qmd file 
+saveRDS(fit, file = "fit_model.rds")
+
+```
+
