@@ -26,16 +26,16 @@ In the formula:
 
 The model was fit using the `brms` package, and the following summarizes the key findings from the analysis:
 
--   **Intercept (**β0\beta\_0β0​): Represents the baseline log-rate of the number of Olympics attended when the total number of medals is zero.
+-   **Intercept: Represents the baseline log-rate of the number of Olympics attended when the total number of medals is zero.
 
--   **Total Medals (**β1\beta\_1β1​): Indicates how the log-rate of the number of Olympics attended changes with each additional medal won.
+-   **Total Medals: Indicates how the log-rate of the number of Olympics attended changes with each additional medal won.
 
--   **Random Effects**: Include variations attributed to different sports and teams.​​
+-   **Random Effects**: Include variations attributed to different sports and teams.
 
-    ```{r}
-    message: FALSE
-    echo: FALSE
-    # In second .qmd file
+    ```{r, echo = FALSE}
+    #|message: FALSE
+
+  
     fit <- readRDS("fit_model.rds")
     summary(fit)
     ```

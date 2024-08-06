@@ -49,6 +49,8 @@ smaller_athlete_data <- slice_sample(athlete_data, prop = 0.01)
 ```{r}
 #|cache: TRUE
 #|message: FALSE
+#| warning: FALSE
+#| results: 'hide'
  fit <-  brm(
   formula = formula,
   data = smaller_athlete_data,
@@ -86,11 +88,21 @@ predictions <- fit |> add_epred_draws(newdata = sampled_combinations, seed = 9)
 ```
 
 ```{r}
-predictions |> ggplot(aes(x = Total_Medals, y = Sport, color = Olympics_Attended)) + geom_point() + scale_color_gradient(low = "blue", high = "red") 
+predictions |> ggplot(aes(x = Total_Medals, y = .epred, color = Team)) +
+  geom_line() +
+  facet_wrap(~ Sport, scales = "free") +
+  scale_color_viridis_d() +
+  labs(
+    title = "Predicted Number of Olympics Attended by Total Medals",
+    x = "Total Medals",
+    y = "Predicted Number of Olympics Attended",
+    color = "Team"
+  ) +
+  theme_minimal() 
 ```
 
 ```{r}
-# In first .qmd file
+# In first .qmd file 
 saveRDS(fit, file = "fit_model.rds")
 
 ```
