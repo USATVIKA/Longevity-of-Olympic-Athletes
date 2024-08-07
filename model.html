@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Longecity of Olympic Athletes - Models</title>
+<title>Longevity of Olympic Athletes - Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -108,7 +108,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Longecity of Olympic Athletes</span>
+    <span class="navbar-title">Longevity of Olympic Athletes</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -118,7 +118,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./analysis.html"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -183,7 +183,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="model-details">Model Details</h2>
 <section id="data-generating-mechanism" class="level3">
 <h3 class="anchored" data-anchor-id="data-generating-mechanism">Data Generating Mechanism</h3>
-<p>In this analysis, we employ a Bayesian generalized linear model to explore the relationship between the number of Olympics attended by athletes and the total number of medals they have won. The model is specified as follows: <span class="math display">\[
+<p>This analysis employed a Bayesian generalized linear model to explore the relationship between the number of Olympics attended by athletes and the total number of medals they have won. The model is specified as follows: <span class="math display">\[
 \text{Olympics\_Attended} \sim \text{Poisson}(\lambda)
 \]</span></p>
 <p>Where the log of the expected value of the Poisson distribution is modeled as:</p>
@@ -212,18 +212,18 @@ Formula: Olympics_Attended ~ Total_Medals + (1 | Sport) + (1 | Team)
          total post-warmup draws = 4000
 
 Multilevel Hyperparameters:
-~Sport (Number of levels: 55) 
+~Sport (Number of levels: 56) 
               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sd(Intercept)     0.03      0.02     0.00     0.08 1.00     2343     1858
+sd(Intercept)     0.03      0.02     0.00     0.08 1.00     2524     2206
 
-~Team (Number of levels: 200) 
+~Team (Number of levels: 194) 
               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sd(Intercept)     0.02      0.02     0.00     0.07 1.00     2950     2016
+sd(Intercept)     0.02      0.02     0.00     0.07 1.00     3107     2475
 
 Regression Coefficients:
              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-Intercept        0.24      0.03     0.19     0.30 1.00     4969     2841
-Total_Medals     0.18      0.02     0.14     0.21 1.00     6870     2794
+Intercept        0.23      0.03     0.17     0.28 1.00     5851     2993
+Total_Medals     0.18      0.02     0.13     0.23 1.00     7035     2680
 
 Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
