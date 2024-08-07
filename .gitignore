@@ -6,3 +6,5 @@
 *.Rproj
 .Rproj.user
 _site/
+*analysis_cache
+-chunk-*

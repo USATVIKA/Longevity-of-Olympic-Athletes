@@ -120,5 +120,5 @@ saveRDS(fit, file = "fit_model.rds")
 
 ```
 
-This project explores the relationship between a number of medals and Olympic athlete has earned, and the number of Olympics they have attended. Attempting to explain the longevity of an athlete's Olympic career, we show over the past 120 years, the average medal per Olympics attended ratio, with swimming as an outlier, since it is easy to rack up the medals in swimming. Using Sport and Team as random variable we use a formula of Total_Medals ~ Olympics_Attended + Sport + Team.
+This project explores the relationship between a number of medals and Olympic athlete has earned, and the number of Olympics they have attended. Attempting to explain the longevity of an athlete's Olympic career, we show over the past 120 years, the average medal per Olympics attended ratio, with swimming as an outlier, since it is easy to rack up the medals in swimming. Using Sport and Team as random variable we use a formula of Total_Medals ~ Olympics_Attended + Sport + Team. Each category of sport has wide variety of the the amount of medals people have vs the amount of Olympics they have attended, showing no clear relationship.
 
