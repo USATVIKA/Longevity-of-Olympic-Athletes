@@ -63,10 +63,10 @@ smaller_athlete_data <- slice_sample(athlete_data, prop = 0.01)
 ```{r}
 #| cache: TRUE
 # Check model fit and convergence
-summary(fit)
-plot(fit)
-posterior_predict(fit)
-fixef(fit)
+#summary(fit)
+#plot(fit)
+#posterior_predict(fit)
+#fixef(fit)
 
 teams <- unique(smaller_athlete_data$Team)
 sports <- unique(smaller_athlete_data$Sport)
@@ -84,25 +84,30 @@ sampled_combinations <- all_combinations |> sample_n(1000) # Adjust the number a
 
 # Generate predictions using the comprehensive tibble
 predictions <- fit |> add_epred_draws(newdata = sampled_combinations, seed = 9)
+swimming_predictions <- predictions |> filter(Sport == "Swimming")
+general_predictions <- predictions |> filter(Sport != "Swimming")
 
 ```
 
 ```{r}
-predictions |> ggplot(aes(x = Total_Medals, y = .epred, color = Team)) +
-  geom_line() +
-  facet_wrap(~ Sport, scales = "free") +
-  scale_color_viridis_d() +
+ggplot(predictions, aes(x = Total_Medals, y = .epred, color = Sport)) +
+  geom_line(alpha = 0.7) +
+  geom_point(data = swimming_predictions, aes(x = Total_Medals, y = .epred), color = "blue", size = 3) +
+  geom_point(data = general_predictions, aes(x = Total_Medals, y = .epred), color = "yellow", size = 3) +
   labs(
-    title = "Predicted Number of Olympics Attended by Total Medals",
+    title = "Predicted Number of Olympics Attended Based on Medals Earned",
     x = "Total Medals",
-    y = "Predicted Number of Olympics Attended",
-    color = "Team"
+    y = "Predicted Number of Olympics Attended"
   ) +
-  theme_minimal() 
+  theme_minimal() +
+  scale_color_manual(values = c("Swimming" = "blue", "Other Sports" = "yellow"))
 ```
 
 ```{r}
+#|message: FALSE
 # In first .qmd file 
 saveRDS(fit, file = "fit_model.rds")
 
 ```
+
+This project explores the relationship between a number of medals and Olympic athlete has earned, and the number of Olympics they have attended. Attempting to explain the longevity of an athlete's Olympic career, we show over the past 120 years, the average medal per Olympics attended ratio, with swimming as an outlier, since it is easy to rack up the medals in swimming. Using Sport and Team as random variable we use a formula of Total_Medals ~ Olympics_Attended + Sport + Team.

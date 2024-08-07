@@ -2,10 +2,10 @@ project:
   type: website
 
 website:
-  title: "."
+  title: "Longevity of Olympic Athletes"
   navbar:
     left:
-      - href: analysis.qmd
+      - href: index.qmd
         text: Home
       - about.qmd
       - sources.qmd

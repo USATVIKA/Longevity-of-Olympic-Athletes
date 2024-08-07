@@ -6,7 +6,7 @@ title: "Models"
 
 ### Data Generating Mechanism
 
-In this analysis, we employ a Bayesian generalized linear model to explore the relationship between the number of Olympics attended by athletes and the total number of medals they have won. The model is specified as follows: $$
+This analysis employed a Bayesian generalized linear model to explore the relationship between the number of Olympics attended by athletes and the total number of medals they have won. The model is specified as follows: $$
 \text{Olympics\_Attended} \sim \text{Poisson}(\lambda)
 $$
 
@@ -16,7 +16,7 @@ Where the log of the expected value of the Poisson distribution is modeled as:
 
 In the formula:
 
--   Olympis_Attended is the dependent variable (the number of Olympics attended).
+-   Olympics_Attended is the dependent variable (the number of Olympics attended).
 
 -   Total_Medals is the predictor variable (the total number of medals won).
 

@@ -1,7 +1,124 @@
 ---
-title: "."
+title: "Longevity of Olympic Athletes"
+format: html
+editor: visual
+execute:
+  echo: false
 ---
 
-This is a Quarto website.
+```{r}
+#| message: FALSE
+#| label: setup
+library(tidyverse)
+library(bayesplot)
+library(tidybayes)
+library(brms)
+```
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+```{r}
+#|message: FALSE
+#|label: dataset
+ds <- read_csv("athlete_events.csv", show_col_types = FALSE)
+
+```
+
+```{r}
+#|label: athlete data
+
+athlete_data <- ds |>
+  mutate(medal = if_else(is.na(Medal), 0, 1)) |>
+  group_by(ID, Sport, Team) |>
+  summarise(
+    Total_Medals = sum(medal, na.rm = TRUE),
+    Olympics_Attended = n_distinct(Games),
+    .groups = "drop"
+  )
+
+
+```
+
+```{r}
+#| cache: true
+# Define the model formula
+formula <- bf(Olympics_Attended ~ Total_Medals + (1|Sport) + (1|Team))
+
+smaller_athlete_data <- slice_sample(athlete_data, prop = 0.01)
+# Fit the model
+```
+
+```{r}
+#|cache: TRUE
+#|message: FALSE
+#| warning: FALSE
+#| results: 'hide'
+ fit <-  brm(
+  formula = formula,
+  data = smaller_athlete_data,
+  family = poisson(), 
+  seed = 9, 
+  refresh = 0, 
+  silent = 2)
+```
+
+```{r}
+#| cache: TRUE
+# Check model fit and convergence
+#summary(fit)
+#plot(fit)
+#posterior_predict(fit)
+#fixef(fit)
+
+teams <- unique(smaller_athlete_data$Team)
+sports <- unique(smaller_athlete_data$Sport)
+total_medals <- seq(0, max(smaller_athlete_data$Total_Medals)) # Adjust the range as needed
+
+# Create a tibble with all combinations
+all_combinations <- expand_grid(
+  Team = teams,
+  Sport = sports,
+  Total_Medals = total_medals,
+  Olympics_Attended = 1:10
+)
+# Sample a subset of the combinations
+sampled_combinations <- all_combinations |> sample_n(1000) # Adjust the number as needed
+
+# Generate predictions using the comprehensive tibble
+predictions <- fit |> add_epred_draws(newdata = sampled_combinations, seed = 9)
+swimming_predictions <- predictions |> filter(Sport == "Swimming")
+athletics_predictions <- predictions |> filter(Sport == "Athletics")
+team_ball_sports_predictions <- predictions |> filter(Sport == "Basketball" | Sport == "Volleybal" | Sport == "Handball" | Sport == "Football" | Sport == "Water Polo")
+
+combined_predictions <- bind_rows(
+  swimming_predictions %>% mutate(Sport = "Swimming"),
+  athletics_predictions %>% mutate(Sport = "Athletics"),
+  team_ball_sports_predictions %>% mutate(Sport = "Team Ball Sports")
+)
+```
+
+```{r}
+#|message: FALSE
+ggplot(combined_predictions, aes(x = Total_Medals, y = Olympics_Attended, color = Sport)) +
+  geom_point() +  # Adjust point size and transparency
+  facet_wrap(~ Sport) +
+  labs(
+    title = "Predicted Number of Olympics Attended Based on Medals Earned",
+    x = "Total Medals",
+    y = "Predicted Number of Olympics Attended"
+  ) +
+  scale_color_manual(values = c("Swimming" = "green", "Athletics" = "red", "Team Ball Sports" = "purple")) +
+  theme_minimal() +
+  theme(
+    legend.title = element_blank(),  # Remove legend title
+    legend.position = "bottom"       # Position legend at the bottom
+  ) + scale_y_continuous(breaks = c(1:10, 2))
+```
+
+```{r}
+#|message: FALSE
+# In first .qmd file 
+saveRDS(fit, file = "fit_model.rds")
+
+```
+
+This project explores the relationship between a number of medals and Olympic athlete has earned, and the number of Olympics they have attended. Attempting to explain the longevity of an athlete's Olympic career, we show over the past 120 years, the average medal per Olympics attended ratio, with swimming as an outlier, since it is easy to rack up the medals in swimming. Using Sport and Team as random variable we use a formula of Total_Medals ~ Olympics_Attended + Sport + Team.
+
