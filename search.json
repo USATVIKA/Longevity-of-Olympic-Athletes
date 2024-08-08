@@ -11,12 +11,12 @@
     "href": "index.html",
     "title": "Longevity of Olympic Athletes",
     "section": "",
-    "text": "This project explores the relationship between a number of medals and Olympic athlete has earned, and the number of Olympics they have attended. Attempting to explain the longevity of an athlete’s Olympic career, we show over the past 120 years, the average medal per Olympics attended ratio, with swimming as an outlier, since it is easy to rack up the medals in swimming. Using Sport and Team as random variable we use a formula of Total_Medals ~ Olympics_Attended + Sport + Team. Each category of sport has wide variety of the the amount of medals people have vs the amount of Olympics they have attended, showing no clear relationship."
+    "text": "This project explores the relationship between a number of medals and Olympic athlete has earned, and the number of Olympics they have attended. Attempting to explain the longevity of an athlete’s Olympic career, we show over the past 120 years, the average medal per Olympics attended ratio, with swimming as an outlier, since it is easy to rack up the medals in swimming. Using Sport and Team as random variable we use a formula of Total_Medals ~ Olympics_Attended + Sport + Team. An athlete who has won at least one medal is approximately 20% more likely to attend another Olympics compared to an athlete who has not won any medals."
   },
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "About",
+    "title": "About this site",
     "section": "",
     "text": "My name is Satvika Upperla, and I am a student at Allen High School, check out my Github account here, and contact me at upperlasatvika@gmail.com if you have any questions. My project explores the relationship between an athletes longevity in the Olympics and the amount of medals they win, find out more info about it here. This project was created as a part of Kane’s Data Science Bootcamp."
   },
